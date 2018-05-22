@@ -9,12 +9,18 @@
 
 .background {
     height: 100vh;
-    background-color: grey;
+    background: repeating-linear-gradient(
+        45deg,
+        mediumseagreen,
+        mediumseagreen 10px,
+        seagreen 10px,
+        seagreen 20px
+    );
 }
 
 .header {
-    height: 10%;
-    background-color: black;
+    height: 12%;
+    background-color: lightgreen;
     display: flex;
     align-items: center;
     &__title {
@@ -23,7 +29,7 @@
 }
 
 .main {
-    height: 90%;
+    height: 88%;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -35,28 +41,63 @@
     }
     &__sketchpad {
         background-color: white;
+        width: 500px;
+        height: 500px;
         margin-right: 25px;
+        border-radius: 5px;
+        overflow: hidden;
     }
 }
 
 .toolbar {
-    width: 25%;
+    width: 300px;
+    background-color: rgb(215, 255, 215);
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     &__button {
         width: 100%;
         height: 50px;
         border: 0;
-        background-color: lightgrey;
-        font-size: 1.4rem;
+        background-color: lightgreen;
+        color: white;
+        font-size: 1.8rem;
         text-transform: uppercase;
-        margin-bottom: 10px;
+        position: relative;
+		top: 0;
+		border-radius: 5px;
+		box-shadow: 0px 10px 0px mediumseagreen;
+        transition: all 0.25s;
+        margin-bottom: 20px;
+        &:active {
+            top: 5px;
+            background: mediumspringgreen;
+            box-shadow: 0px 5px 0px seagreen;
+        }
+        &:last-child {
+            margin-bottom: 10px;
+        }
         &--half {
             width: 50%;
             height: 50px;
             border: 0;
-            background-color: salmon;
-            font-size: 1.4rem;
+            background-color: lightgreen;
+            color: white;
+            font-size: 1.8rem;
             text-transform: uppercase;
             margin-right: 10px;
+            position: relative;
+			top: 0;
+			border-radius: 5px;
+			box-shadow: 0px 10px 0px mediumseagreen;
+            transition: all 0.25s;
+            &:active {
+                top: 5px;
+                background: mediumspringgreen;
+                box-shadow: 0px 5px 0px seagreen;
+            }
             &:last-child {
                 margin-right: 0;
             }
@@ -65,17 +106,20 @@
     &__buttons {
         display: flex;
         flex-flow: row nowrap;
-        margin-bottom: 10px;
     }
     &__row {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
-        margin-bottom: 10px;
+        &:first-child {
+            margin-bottom: 15px;
+        }
     }
     &__color {
         width: 45px;
         height: 45px;
+        border-radius: 5px;
+        cursor: pointer;
         &--red {
             background-color: red;
         }
@@ -83,19 +127,19 @@
             background-color: blue;
         }
         &--yellow {
-            background-color: yellow;
+            background-color: gold;
         }
         &--orange {
-            background-color: orange;
+            background-color: darkorange;
         }
         &--purple {
-            background-color: purple;
+            background-color: rebeccapurple;
         }
         &--green {
-            background-color: green;
+            background-color: limegreen;
         }
         &--pink {
-            background-color: pink;
+            background-color: hotpink;
         }
         &--grey {
             background-color: lightgrey;
@@ -109,27 +153,66 @@
     }
 }
 
+.slider {
+    margin-top: 5px;
+    &__title {
+        font-size: 1.4rem;
+        color: mediumseagreen;
+        text-transform: uppercase;
+    }
+    &__input {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 25px;
+        background: lightgreen;
+        outline: none;
+        margin-top: 5px;
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: mediumseagreen;
+            outline: none;
+            cursor: pointer;
+        }
+        &::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: mediumseagreen;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+}
+
 .projects {
     width: 100%;
-    height: 200px;
+    height: 250px;
     position: absolute;
-    bottom: -200px;
+    bottom: -250px;
     left: 0px;
-    background: darkgrey;
+    background: lightgreen;
     transition: all 0.5s ease;
-    padding: 0 15px;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
+    overflow: scroll;
     &__close-button {
         position: absolute;
         top: 15px;
         right: 15px;
         font-size: 1.6rem;
+        cursor: pointer;
+        color: seagreen;
     }
     &__preview {
         display: flex;
-
+        flex-wrap: wrap;
+        justify-content: center;
     }
     &--show {
         bottom: 0;
@@ -138,15 +221,157 @@
 
 .sketch {
     background: white;
-    width: 175px;
-    height: 175px;
+    width: 200px;
+    height: 200px;
     position: relative;
+    margin: 15px;
+    border-radius: 5px;
+    overflow: hidden;
+    &__add-button {
+        position: absolute;
+        top: 10px;
+        right: 35px;
+        font-size: 1.6rem;
+        cursor: pointer;
+    }
     &__close-button {
         position: absolute;
         top: 10px;
         right: 10px;
         font-size: 1.6rem;
-        z-index: 5;
         cursor: pointer;
     }
 }
+
+
+// MEDIA QUERY
+
+@media (max-width: 1080px) {
+    .main {
+        &__sketchpad {
+            background-color: white;
+            width: 400px;
+            height: 400px;
+        }
+    }
+    .toolbar {
+        width: 200px;
+        &__button {
+            height: 35px;
+            font-size: 1.4rem;
+            &--half {
+                height: 35px;
+                font-size: 1.4rem;
+            }
+        }
+        &__color {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 7.5%;
+        &__title {
+            text-align: center;
+            font-size: 2.4rem;
+        }
+    }
+    .main {
+        height: 92.5%;
+        &__body {
+            flex-flow: column nowrap;
+            align-items: center;
+        }
+        &__sketchpad {
+            background-color: white;
+            width: 300px;
+            height: 300px;
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+    }
+    .toolbar {
+        width: 300px;
+        &__utils {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        &__button {
+            width: 25%;
+            height: 30px;
+            font-size: 1.2rem;
+            box-shadow: none;
+            margin-bottom: 0;
+            margin-right: 10px;
+            &:active {
+                top: 0;
+                background: none;
+                box-shadow: none;
+            }
+            &:first-child {
+                margin-right: 10px;
+            }
+            &:last-child {
+                margin-bottom: 0;
+                margin-right: 0;
+                width: 100%;
+            }
+            &--half {
+                width: 100%;
+                height: 30px;
+                font-size: 1.2rem;
+                box-shadow: none;
+                margin-right: 0;
+                &:active {
+                    top: 0;
+                    background: none;
+                    box-shadow: none;
+                }
+                &:first-child {
+                    margin-right: 10px;
+                }
+            }
+        }
+        &__buttons {
+            width: 50%;
+        }
+        &__row {
+            flex: 1;
+            &:first-child {
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+        }
+        &__colors {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        &__color {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .slider {
+        margin-top: 0;
+        margin-bottom: 10px;
+        &__title {
+            display: none;
+        }
+        &__input {
+            height: 15px;
+            margin-top: 0;
+            &::-webkit-slider-thumb {
+                width: 15px;
+                height: 15px;
+            }
+            &::-moz-range-thumb {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+}
+

@@ -3,10 +3,13 @@ import React from 'react';
 export default function(props) {
     return (
         <div className="sketch">
-            <div className="sketch__close-button">
-                <i className="far fa-trash-alt" onClick={() => props.removeSketch()}></i>
+            <div className="sketch__add-button" onClick={() => props.addDrawing(props.drawing.sketch)}>
+                <i className="far fa-plus-square"></i>
             </div>
-            <img src={props.drawing.sketch} alt="" width="175" height="175"/>
+            <div className="sketch__close-button" onClick={() => props.removeDrawing(props.drawing.key)}>
+                <i className="far fa-trash-alt"></i>
+            </div>
+            <img src={props.drawing.sketch} alt="" width="200" height="200"/>
         </div>
     )
 }

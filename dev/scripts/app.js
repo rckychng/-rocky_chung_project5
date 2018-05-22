@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {SketchField, Tools} from 'react-sketch';
-import SketchThumb from './components/sketchThumb.js'
+// import {HuePicker} from 'react-color';
+import SketchThumb from './components/sketchThumb.js';
 // import styled,{css} from 'styled-components';
 
 const config = {
@@ -13,6 +14,8 @@ const config = {
     messagingSenderId: "476543522660"
 };
 firebase.initializeApp(config);
+
+// Styled Components
 
 // const Wrapper = styled.div`
 //     max-width: 1280px;
@@ -93,18 +96,13 @@ class App extends React.Component {
 
         this.showProjects = this.showProjects.bind(this);
         this.saveCanvas = this.saveCanvas.bind(this);
-        this.removeSketch = this.removeSketch.bind(this)
-        this.resetCanvas = this.resetCanvas.bind(this);
-        this.changeColorToRed = this.changeColorToRed.bind(this);
-        this.changeColorToBlue = this.changeColorToBlue.bind(this);
-        this.changeColorToYellow = this.changeColorToYellow.bind(this);
-        this.changeColorToOrange = this.changeColorToOrange.bind(this);
-        this.changeColorToPurple = this.changeColorToPurple.bind(this);
-        this.changeColorToGreen = this.changeColorToGreen.bind(this);
-        this.changeColorToPink = this.changeColorToPink.bind(this);
-        this.changeColorToGrey = this.changeColorToGrey.bind(this);
-        this.changeColorToBlack = this.changeColorToBlack.bind(this);
-        this.changeColorToWhite = this.changeColorToWhite.bind(this);
+        this.addDrawing = this.addDrawing.bind(this);
+        this.removeDrawing = this.removeDrawing.bind(this);
+        this.clearCanvas = this.clearCanvas.bind(this);
+        this.undoCanvas = this.undoCanvas.bind(this);
+        this.redoCanvas = this.redoCanvas.bind(this);
+        this.changeColor = this.changeColor.bind(this);
+        this.changeLineWidth = this.changeLineWidth.bind(this);
         
         this.state = {
             lineColor: "black",
@@ -112,24 +110,11 @@ class App extends React.Component {
             tool: Tools.Pencil,
             canvasWidth: "500px",
             canvasHeight: "500px",
-            drawings: []
-            // fillColor: '#68CCCA',
-            // shadowWidth: 0,
-            // shadowOffset: 0,
-            // fillWithColor: false,
-            // fillWithBackgroundColor: false,
-            // drawings: [],
-            // canUndo: false,
-            // canRedo: false,
-            // controlledSize: false,
-            // stretched: true,
-            // stretchedX: false,
-            // stretchedY: false,
-            // originX: 'left',
-            // originY: 'top'
-            
+            undoSteps: 15,
+            drawings: [],
         };
     }
+
     componentDidMount() {
         firebase.database().ref().on("value", (res) => {
             // console.log(res.val())
@@ -147,7 +132,6 @@ class App extends React.Component {
     }
 
     showProjects() {
-        // console.log("Showing Projects");
         this.mainProjects.classList.toggle("projects--show");
     }
 
@@ -159,83 +143,74 @@ class App extends React.Component {
         dbref.push(drawing)
     }
 
-    resetCanvas() {
+    clearCanvas() {
         this.sketch.clear();
     }
-    
-    removeSketch() {
-        console.log("Clicked");
-        // console.log(drawingKey);
-        // const dbref = firebase.database().ref(drawingKey);
-        // dbref.remove();
-    }
-    
-    changeColorToRed() {
-        this.setState({
-            lineColor: "red"
-        })
-    }
-    
-    changeColorToOrange() {
-        this.setState({
-            lineColor: "orange"
-        })
+
+    undoCanvas() {
+        this.sketch.undo();
     }
 
-    changeColorToYellow() {
-        this.setState({
-            lineColor: "yellow"
-        })
+    redoCanvas() {
+        this.sketch.redo();
+    }
+
+    addDrawing(drawingSketch) {
+        this.sketch.clear();
+        this.sketch.addImg(drawingSketch);
+        this.mainProjects.classList.toggle("projects--show");
     }
     
-    changeColorToBlue() {
-        this.setState({
-            lineColor: "blue"
-        })
+    removeDrawing(drawingKey) {
+        const dbref = firebase.database().ref(drawingKey);
+        dbref.remove();
     }
 
-    changeColorToPurple() {
+    changeLineWidth(value) {
+        // console.log(value)
         this.setState({
-            lineColor: "purple"
-        })
+            lineWidth: value
+        });
     }
 
-    changeColorToGreen() {
+    changeColor(color) {
         this.setState({
-            lineColor: "green"
-        })
+            lineColor: color
+        });
     }
 
-    changeColorToPink() {
-        this.setState({
-            lineColor: "hotpink"
-        })
-    }
-
-    changeColorToGrey() {
-        this.setState({
-            lineColor: "lightgrey"
-        })
-    }
-
-    changeColorToBlack() {
-        this.setState({
-            lineColor: "black"
-        })
-    }
-
-    changeColorToWhite() {
-        this.setState({
-            lineColor: "white"
-        })
-    }
+    // getScreenSize() {
+    //     window.addEventListener("resize", () => { 
+    //         const height = window.innerHeight;
+    //         const width = window.innerWidth;
+    //         if (width > 1080) {
+    //             this.setState({
+    //                 canvasWidth: "500px",
+    //                 canvasHeight: "500px"
+    //             })
+    //         }
+    //         if (width > 768 && width < 1080) {
+    //             this.setState({
+    //                 canvasWidth: "400px",
+    //                 canvasHeight: "400px"
+    //             })
+    //         }
+    //         if (width < 768) {
+    //             this.setState({
+    //                 canvasWidth: "300px",
+    //                 canvasHeight: "300px"
+    //             })
+    //         }
+    //     });
+    // }
 
     render() {
-        return (    
-            <div className="background">
+        // this.getScreenSize()
+        return (
+            <div className="background" >
                 <header className="header">
                     <div className="wrapper">
-                        <h1 className="header__title"></h1>
+                        <h1 className="header__title">REACT Paint</h1>
                     </div>
                 </header>
                 <main className="main">
@@ -254,28 +229,44 @@ class App extends React.Component {
                                 />
                             </div>
                             <aside className="toolbar">
-                                <button className="toolbar__button" onClick={this.saveCanvas}>save</button>
-                                <div className="toolbar__buttons">
-                                    <button className="toolbar__button--half">new</button>
-                                    <button className="toolbar__button--half" onClick={this.showProjects}>load</button>
+                                <div className="toolbar__utils">
+                                    <button className="toolbar__button" onClick={this.saveCanvas}>save</button>
+                                    <button className="toolbar__button" onClick={this.showProjects}>load</button>
+                                    <div className="toolbar__buttons">
+                                        <button className="toolbar__button--half" onClick={this.undoCanvas}>undo</button>
+                                        <button className="toolbar__button--half" onClick={this.redoCanvas}>redo</button>
+                                    </div>
                                 </div>
+                                <form className="slider">
+                                    <label className="slider__title" htmlFor="slider__input">Line Width</label>
+                                    <input 
+                                        type="range"
+                                        min="1"
+                                        max="20"
+                                        value={this.state.lineWidth}
+                                        onChange={(e) => this.changeLineWidth(e.target.value)}
+                                        step="1"
+                                        className="slider__input"
+                                        id="slider__input"
+                                    />
+                                </form>
                                 <div className="toolbar__colors">
                                     <div className="toolbar__row">
-                                        <div className="toolbar__color toolbar__color--red" value="red" onClick={this.changeColorToRed}></div>
-                                        <div className="toolbar__color toolbar__color--orange" value="orange" onClick={this.changeColorToOrange}></div>
-                                        <div className="toolbar__color toolbar__color--yellow" value="yellow" onClick={this.changeColorToYellow}></div>
-                                        <div className="toolbar__color toolbar__color--blue" value="blue" onClick={this.changeColorToBlue}></div>
-                                        <div className="toolbar__color toolbar__color--purple" value="purple" onClick={this.changeColorToPurple}></div>
+                                        <div className="toolbar__color toolbar__color--red" onClick={() => this.changeColor("red")}></div>
+                                        <div className="toolbar__color toolbar__color--orange" onClick={() => this.changeColor("darkorange")}></div>
+                                        <div className="toolbar__color toolbar__color--yellow" onClick={() => this.changeColor("gold")}></div>
+                                        <div className="toolbar__color toolbar__color--blue" onClick={() => this.changeColor("blue")}></div>
+                                        <div className="toolbar__color toolbar__color--purple" onClick={() => this.changeColor("rebeccapurple")}></div>
                                     </div>
                                     <div className="toolbar__row">
-                                        <div className="toolbar__color toolbar__color--green" value="green" onClick={this.changeColorToGreen}></div>
-                                        <div className="toolbar__color toolbar__color--pink" value="pink" onClick={this.changeColorToPink}></div>
-                                        <div className="toolbar__color toolbar__color--grey" value="grey" onClick={this.changeColorToGrey}></div>
-                                        <div className="toolbar__color toolbar__color--black" value="black" onClick={this.changeColorToBlack}></div>
-                                        <div className="toolbar__color toolbar__color--white" value="white" onClick={this.changeColorToWhite}></div>
+                                        <div className="toolbar__color toolbar__color--green" onClick={() => this.changeColor("limegreen")}></div>
+                                        <div className="toolbar__color toolbar__color--pink" onClick={() => this.changeColor("hotpink")}></div>
+                                        <div className="toolbar__color toolbar__color--grey" onClick={() => this.changeColor("lightgrey")}></div>
+                                        <div className="toolbar__color toolbar__color--black" onClick={() => this.changeColor("black")}></div>
+                                        <div className="toolbar__color toolbar__color--white" onClick={() => this.changeColor("white")}></div>
                                     </div>
                                 </div>
-                                <button className="toolbar__button" onClick={this.resetCanvas}>reset</button>
+                                <button className="toolbar__button" onClick={this.clearCanvas}>clear</button>
                             </aside> 
                         </div>
                     </div>
@@ -286,9 +277,9 @@ class App extends React.Component {
                         <div className="projects__preview wrapper">
                             {this.state.drawings.map((drawing,i) => {
                                 return (
-                                    <SketchThumb drawing={drawing} key={`drawing-${i}`} removeSketch={this.removeSketch}/>
+                                    <SketchThumb drawing={drawing} key={`drawing-${i}`} removeDrawing={this.removeDrawing} addDrawing={this.addDrawing}/>
                                 )
-                            })}
+                            }).reverse()}
                         </div>
                     </section>
                 </main>
