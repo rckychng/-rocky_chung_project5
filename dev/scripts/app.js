@@ -5,12 +5,12 @@ import SketchThumb from './components/sketchThumb.js';
 // import styled,{css} from 'styled-components';
 
 const config = {
-    apiKey: "AIzaSyD80CudW5IMKA0kJjwn3lT7IfJ-c7ejtAg",
-    authDomain: "paint-react.firebaseapp.com",
-    databaseURL: "https://paint-react.firebaseio.com",
-    projectId: "paint-react",
-    storageBucket: "paint-react.appspot.com",
-    messagingSenderId: "476543522660"
+    apiKey: "AIzaSyBIss40nbQPbpof4kZ6pVFAoYaT9RIVcdI",
+    authDomain: "react-paint.firebaseapp.com",
+    databaseURL: "https://react-paint.firebaseio.com",
+    projectId: "react-paint",
+    storageBucket: "",
+    messagingSenderId: "274101672794"
 };
 firebase.initializeApp(config);
 
