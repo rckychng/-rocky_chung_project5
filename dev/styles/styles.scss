@@ -1,11 +1,6 @@
 @import "setup";
+@import "utils";
 @import "typography";
-
-.wrapper {
-    max-width: 1280px;
-    width: 85%;
-    margin: 0 auto;
-}
 
 .background {
     height: 100vh;
@@ -25,6 +20,7 @@
     align-items: center;
     &__title {
         color: white;
+        text-align: center;     
     }
 }
 
@@ -206,8 +202,8 @@
         top: 15px;
         right: 15px;
         font-size: 1.6rem;
-        cursor: pointer;
         color: seagreen;
+        cursor: pointer;
     }
     &__preview {
         display: flex;
@@ -253,7 +249,7 @@
             width: 400px;
             height: 400px;
         }
-    }
+    }   
     .toolbar {
         width: 200px;
         &__button {
@@ -269,13 +265,18 @@
             height: 25px;
         }
     }
+    .slider {
+        &__title {
+            font-size: 1.2rem;
+        }
+    }
 }
+
 
 @media (max-width: 768px) {
     .header {
         height: 7.5%;
         &__title {
-            text-align: center;
             font-size: 2.4rem;
         }
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {SketchField, Tools} from 'react-sketch';
-// import {HuePicker} from 'react-color';
 import SketchThumb from './components/sketchThumb.js';
 // import styled,{css} from 'styled-components';
 
@@ -169,7 +168,7 @@ class App extends React.Component {
     changeLineWidth(value) {
         // console.log(value)
         this.setState({
-            lineWidth: value
+            lineWidth: Math.floor(value)
         });
     }
 
@@ -179,33 +178,34 @@ class App extends React.Component {
         });
     }
 
-    // getScreenSize() {
-    //     window.addEventListener("resize", () => { 
-    //         const height = window.innerHeight;
-    //         const width = window.innerWidth;
-    //         if (width > 1080) {
-    //             this.setState({
-    //                 canvasWidth: "500px",
-    //                 canvasHeight: "500px"
-    //             })
-    //         }
-    //         if (width > 768 && width < 1080) {
-    //             this.setState({
-    //                 canvasWidth: "400px",
-    //                 canvasHeight: "400px"
-    //             })
-    //         }
-    //         if (width < 768) {
-    //             this.setState({
-    //                 canvasWidth: "300px",
-    //                 canvasHeight: "300px"
-    //             })
-    //         }
-    //     });
-    // }
+    // Found a way to setState() on window size change however it slows down the browser when active.
+    getScreenSize() {
+        window.addEventListener("resize", () => { 
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            if (width > 1080) {
+                this.setState({
+                    canvasWidth: "500px",
+                    canvasHeight: "500px"
+                })
+            }
+            if (width > 768 && width < 1080) {
+                this.setState({
+                    canvasWidth: "400px",
+                    canvasHeight: "400px"
+                })
+            }
+            if (width < 768) {
+                this.setState({
+                    canvasWidth: "300px",
+                    canvasHeight: "300px"
+                })
+            }
+        });
+    }
 
     render() {
-        // this.getScreenSize()
+        this.getScreenSize()
         return (
             <div className="background" >
                 <header className="header">
@@ -242,7 +242,7 @@ class App extends React.Component {
                                     <input 
                                         type="range"
                                         min="1"
-                                        max="20"
+                                        max="50"
                                         value={this.state.lineWidth}
                                         onChange={(e) => this.changeLineWidth(e.target.value)}
                                         step="1"
