@@ -179,33 +179,33 @@ class App extends React.Component {
     }
 
     // Found a way to setState() on window size change however it slows down the browser when active.
-    // getScreenSize() {
-    //     window.addEventListener("resize", () => { 
-    //         const height = window.innerHeight;
-    //         const width = window.innerWidth;
-    //         if (width > 1080) {
-    //             this.setState({
-    //                 canvasWidth: "500px",
-    //                 canvasHeight: "500px"
-    //             })
-    //         }
-    //         if (width > 768 && width < 1080) {
-    //             this.setState({
-    //                 canvasWidth: "400px",
-    //                 canvasHeight: "400px"
-    //             })
-    //         }
-    //         if (width < 768) {
-    //             this.setState({
-    //                 canvasWidth: "300px",
-    //                 canvasHeight: "300px"
-    //             })
-    //         }
-    //     });
-    // }
+    getScreenSize() {
+        window.addEventListener("resize", () => { 
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            if (width > 1080) {
+                this.setState({
+                    canvasWidth: "500px",
+                    canvasHeight: "500px"
+                })
+            }
+            if (width > 768 && width < 1080) {
+                this.setState({
+                    canvasWidth: "400px",
+                    canvasHeight: "400px"
+                })
+            }
+            if (width < 768) {
+                this.setState({
+                    canvasWidth: "300px",
+                    canvasHeight: "300px"
+                })
+            }
+        });
+    }
 
     render() {
-        // this.getScreenSize()
+        this.getScreenSize()
         return (
             <div className="background" >
                 <header className="header">
